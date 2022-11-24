@@ -35,7 +35,7 @@ public class OrderPageSelection {
     private final By finishOrder = By.xpath(".//button[@class='Button_Button__ra12g Button_Middle__1CSJM']");
 
     //Кнопка ДА в поле Хотите оформить заказ?
-    private final By ButtonYes = By.xpath(".//button[@class='Button_Button__ra12g Button_Middle__1CSJM' and text()='Да']");
+    private final By buttonYes = By.xpath(".//button[@class='Button_Button__ra12g Button_Middle__1CSJM' and text()='Да']");
 
 
     // Окно Заказ оформлен
@@ -78,7 +78,7 @@ public class OrderPageSelection {
     }
 
     public void setButtonYes() {
-        driver.findElement(ButtonYes).click();
+        driver.findElement(buttonYes).click();
     }
 
     public void enterParameters(String date, String duration, String comment, int colourBike) {

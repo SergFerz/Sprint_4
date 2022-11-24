@@ -1,7 +1,11 @@
 package page_objects;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import java.time.Duration;
 
 public class HomePage {
     // Стрелочка открывающая текст вопроса 1
@@ -59,42 +63,60 @@ public class HomePage {
         return url;
     }
 
-    public By showQuest(int numberQuest) {
-        if (numberQuest == 1) {
-            return showQuest_1;
-        } else if (numberQuest == 2) {
-            return showQuest_2;
-        } else if (numberQuest == 3) {
-            return showQuest_3;
-        } else if (numberQuest == 4) {
-            return showQuest_4;
-        } else if (numberQuest == 5) {
-            return showQuest_5;
-        } else if (numberQuest == 6) {
-            return showQuest_6;
-        } else if (numberQuest == 7) {
-            return showQuest_7;
-        } else {
-            return showQuest_8;
-        }
+    public String displayAnswer(int numberQuest) {
+        if (numberQuest == 1) {return getHowMuchDoesItCostAnswer();}
+        if (numberQuest == 2) {return getWantSeveralScootersAtOnceAnswer();}
+        if (numberQuest == 3) {return getHowRentalTimeCalculatedAnswer();}
+        if (numberQuest == 4) {return getPossibleToOrderScooterToday();}
+        if (numberQuest == 5) {return getPossibleToExtendOrderOrReturnEarlier();}
+        if (numberQuest == 6) {return getChargingAlongWithScooter();}
+        if (numberQuest == 7) {return getPossibleToCancelOrder();}
+        return getBringScooterBeyondMKAD();
     }
 
-    public By displayQuest(int numberQuest) {
-        if (numberQuest == 1) {
-            return displayQuest_1;
-        } else if (numberQuest == 2) {
-            return displayQuest_2;
-        } else if (numberQuest == 3) {
-            return displayQuest_3;
-        } else if (numberQuest == 4) {
-            return displayQuest_4;
-        } else if (numberQuest == 5) {
-            return displayQuest_5;
-        } else if (numberQuest == 6) {
-            return displayQuest_6;
-        } else if (numberQuest == 7) {
-            return displayQuest_7;
-        } else
-            return displayQuest_8;
+    //Открыть текст ответа
+    public String getHowMuchDoesItCostAnswer() {
+        driver.findElement(showQuest_1).click();
+        return driver.findElement(displayQuest_1).getText();
+    }
+    public String getWantSeveralScootersAtOnceAnswer() {
+        driver.findElement(showQuest_2).click();
+        return driver.findElement(displayQuest_2).getText();
+    }
+    public String getHowRentalTimeCalculatedAnswer() {
+        driver.findElement(showQuest_3).click();
+        return driver.findElement(displayQuest_3).getText();
+    }
+    public String getPossibleToOrderScooterToday() {
+        driver.findElement(showQuest_4).click();
+        return driver.findElement(displayQuest_4).getText();
+    }
+    public String getPossibleToExtendOrderOrReturnEarlier() {
+        driver.findElement(showQuest_5).click();
+        return driver.findElement(displayQuest_5).getText();
+    }
+    public String getChargingAlongWithScooter() {
+        driver.findElement(showQuest_6).click();
+        return driver.findElement(displayQuest_6).getText();
+    }
+    public String getPossibleToCancelOrder() {
+        driver.findElement(showQuest_7).click();
+        return driver.findElement(displayQuest_7).getText();
+    }
+    public String getBringScooterBeyondMKAD() {
+        driver.findElement(showQuest_8).click();
+        return driver.findElement(displayQuest_8).getText();
+    }
+
+    //Прокрутка страниц до раздела "Важные вопросы"
+    public void scrollingToQuestion() {
+        WebElement element = driver.findElement(showQuest_8);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+    }
+
+    //Открытие сайта
+    public void open() {
+        driver.get(url);
     }
 }

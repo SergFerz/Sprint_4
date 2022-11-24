@@ -3,25 +3,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import page_objects.HomePage;
-
-import java.time.Duration;
 
 import static org.junit.Assert.assertEquals;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-
 @RunWith(Parameterized.class)
 public class QuestionsView {
-    WebDriver driver;
-    HomePage homePage = new HomePage(driver);
+    private WebDriver driver;
+    private HomePage homePage;
     private final int numberOfQuest;
     private final String expectedText;
 
@@ -33,15 +24,9 @@ public class QuestionsView {
     @Before
     public void initObjects() {
         driver = new ChromeDriver();
-        driver.get(homePage.getUrl());
-        WebElement element = driver.findElement(By.cssSelector("#accordion__heading-7"));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-    }
-
-    @Before
-    public void startUp() {
-        WebDriverManager.chromedriver().setup();
+        homePage = new HomePage(driver);
+        homePage.open();
+        homePage.scrollingToQuestion();
     }
 
     @Parameterized.Parameters
@@ -60,10 +45,8 @@ public class QuestionsView {
 
     @Test
     public void QuestionsViewTest() {
-        driver.findElement(homePage.showQuest(numberOfQuest)).click();
-        WebElement wait = new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.elementToBeClickable(homePage.displayQuest(numberOfQuest)));
-        assertEquals("Текст не получен", expectedText, driver.findElement(homePage.displayQuest(numberOfQuest)).getText());
+        String actual = homePage.displayAnswer(numberOfQuest);
+        assertEquals("Текст не получен", expectedText, actual);
     }
 
     @After
